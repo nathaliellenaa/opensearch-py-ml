@@ -174,6 +174,14 @@ if __name__ == "__main__":
         help="Model format for auto-tracing (only TORCH_SCRIPT supported)",
     )
     parser.add_argument(
+        "-up",
+        "--upload_prefix",
+        type=str,
+        nargs="?",
+        default=None,
+        help="Model customize path prefix for upload",
+    )
+    parser.add_argument(
         "-mn",
         "--model_name",
         type=str,
@@ -205,4 +213,5 @@ if __name__ == "__main__":
         args.tracing_format,
         args.model_description,
         args.model_name,
+        args.upload_prefix,
     )
