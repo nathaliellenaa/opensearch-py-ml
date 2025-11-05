@@ -124,9 +124,6 @@ def main(
     if model_description is None:
         model_description = "A metrics correlation model that detects anomalous events in time series data by identifying when multiple metrics simultaneously display unusual behavior."
 
-    store_description_variable(model_description)
-    print(f"Model description: {model_description}")
-
     # Create model config
     print("--- Creating model configuration ---")
     config = {
@@ -144,6 +141,8 @@ def main(
     with open(config_file_path, "w") as f:
         json.dump(config, f, indent=2)
     print(f"Config file saved to: {config_file_path}")
+
+    store_description_variable(config_file_path)
 
     prepare_files_for_uploading(
         model_id=model_id,
