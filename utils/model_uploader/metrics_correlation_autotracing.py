@@ -45,6 +45,7 @@ def main(
     tracing_format: str,
     model_description: Optional[str] = None,
     model_name: Optional[str] = None,
+    upload_prefix: Optional[str] = None,
 ) -> None:
     """
     Perform model auto-tracing and prepare files for uploading to OpenSearch model hub.
@@ -67,6 +68,8 @@ def main(
         Custom description for the model in the config file
     model_name : str, optional
         Custom name for the model in the config file and when registered
+    upload_prefix : str, optional
+        Path prefix for the uploaded model files
     """
     print(
         f"""
@@ -76,6 +79,7 @@ def main(
     Tracing Format: {tracing_format}
     Model Description: {model_description if model_description is not None else 'N/A'}
     Model Name: {model_name if model_name is not None else 'N/A'}
+    Upload Prefix: {upload_prefix if upload_prefix is not None else 'N/A'}
     ==========================================
     """
     )
