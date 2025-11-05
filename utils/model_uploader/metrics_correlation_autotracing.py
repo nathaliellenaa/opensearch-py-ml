@@ -134,14 +134,16 @@ def main(
         "description": model_description,
     }
 
-    # Preview and prepare files for uploading
-    preview_model_config(config)
-
+    # Save config file
     config_file_path = "ml-commons_model_config.json"
     with open(config_file_path, "w") as f:
         json.dump(config, f, indent=2)
     print(f"Config file saved to: {config_file_path}")
 
+    # Preview and prepare files for uploading
+    preview_model_config(tracing_format, config_file_path)
+
+    # Store description
     store_description_variable(config_file_path)
 
     prepare_files_for_uploading(
