@@ -13,6 +13,13 @@ for deployment in OpenSearch. It handles creating example inputs, tracing the mo
 packaging it for upload.
 """
 
+import os
+import sys
+
+THIS_DIR = os.path.dirname(__file__)
+ROOT_DIR = os.path.join(THIS_DIR, "../..")
+sys.path.append(ROOT_DIR)
+
 import argparse
 import json
 import warnings

@@ -33,7 +33,7 @@ def verify_inputs(model_id: str, model_version: str) -> None:
     # Skip validation for metrics correlation
     if model_id == "metrics_correlation":
         return
-    
+
     assert model_id.count("/") == 1, f"Invalid Model ID: {model_id}"
     assert (
         re.fullmatch(VERSION_PATTERN, model_version) is not None
