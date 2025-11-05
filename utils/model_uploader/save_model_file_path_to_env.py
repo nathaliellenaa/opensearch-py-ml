@@ -31,7 +31,7 @@ def verify_inputs(model_id: str, model_version: str) -> None:
     :rtype: None
     """
     # Skip validation for metrics correlation
-    if model_id == "metrics-correlation":
+    if model_id == "metrics_correlation":
         return
     
     assert model_id.count("/") == 1, f"Invalid Model ID: {model_id}"
