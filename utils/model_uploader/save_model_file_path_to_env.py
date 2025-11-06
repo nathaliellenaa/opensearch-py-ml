@@ -63,17 +63,16 @@ def get_model_file_path(
     :return: Expected model file path on model hub
     :rtype: string
     """
-    if model_id == "metrics_correlation":
-        model_type = "amazon"
-        model_file_path = str(
-            Path(model_folder)
-            / model_version
-            / model_format.lower()
-            / f"{model_type}_{model_id}-{model_version}-{model_format.lower()}.zip"
-        )
-        return model_file_path
-    else:
-        model_type, model_name = model_id.split("/")
+    # if model_id == "metrics_correlation":
+    #     model_file_path = str(
+    #         Path(model_id)
+    #         / model_version
+    #         / model_format.lower()
+    #         / f"{model_id}-{model_version}-{model_format.lower()}.zip"
+    #     )
+    #     return model_file_path
+    # else:
+    model_type, model_name = model_id.split("/")
     if UPLOAD_PREFIX_KEY in custom_params:
         model_type = custom_params[UPLOAD_PREFIX_KEY]
     if MODEL_NAME_KEY in custom_params:
