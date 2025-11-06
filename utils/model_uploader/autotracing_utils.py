@@ -305,8 +305,28 @@ def prepare_files_for_uploading(
             f"{model_type}_{model_name}-{model_version}-{model_format}.zip"
         )
         dst_model_path = dst_model_dir + "/" + dst_model_filename
-        shutil.copy(src_model_path, dst_model_path)
-        print(f"\nCopied {src_model_path} to {dst_model_path}")
+
+        # Filter files only for metrics correlation models
+        if "metrics_correlation" in model_id.lower():
+            import zipfile
+            import tempfile
+            
+            with tempfile.TemporaryDirectory() as temp_dir:
+                with zipfile.ZipFile(src_model_path, 'r') as src_zip:
+                    src_zip.extractall(temp_dir)
+                
+                with zipfile.ZipFile(dst_model_path, 'w', zipfile.ZIP_DEFLATED) as dst_zip:
+                    for root, dirs, files in os.walk(temp_dir):
+                        for file in files:
+                            if file.endswith('.pt') or 'license' in file.lower():
+                                file_path = os.path.join(root, file)
+                                arcname = os.path.relpath(file_path, temp_dir)
+                                dst_zip.write(file_path, arcname)
+            
+            print(f"\nCreated filtered zip {dst_model_path} with .pt and license files only")
+        else:
+            shutil.copy(src_model_path, dst_model_path)
+            print(f"\nCopied {src_model_path} to {dst_model_path}")
 
         dst_model_config_dir = (
             f"{UPLOAD_FOLDER_PATH}{model_name}/{model_version}/{model_format}"
