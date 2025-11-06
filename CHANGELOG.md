@@ -38,6 +38,7 @@ Inspired from [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - Upgrade numpy and python version ([#562](https://github.com/opensearch-project/opensearch-py-ml/pull/562))
 - Update space type mapping for sentence transformer models ([#574](https://github.com/opensearch-project/opensearch-py-ml/pull/574))
 - Update semantic highlighting sagemaker endpoint deploy scripts ([#585](https://github.com/opensearch-project/opensearch-py-ml/pull/585))
+- Update model upload history -  metrics_correlation (v.1.0.0b2)(TORCH_SCRIPT) by @nathaliellenaa ([#10](https://github.com/nathaliellenaa/opensearch-py-ml/pull/10))
 
 ### Fixed
 - Fix for uploading models with function_name instead of model_task ([#553](https://github.com/opensearch-project/opensearch-py-ml/pull/553))
