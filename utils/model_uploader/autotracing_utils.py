@@ -306,9 +306,10 @@ def prepare_files_for_uploading(
             f"{UPLOAD_FOLDER_PATH}{model_name}/{model_version}/{model_format}"
         )
         os.makedirs(dst_model_dir, exist_ok=True)
-        dst_model_filename = (
-            f"{model_type}_{model_name}-{model_version}-{model_format}.zip"
-        )
+        if model_id == "metrics_correlation":
+            dst_model_filename = f"{model_name}-{model_version}-{model_format}.zip"
+        else:
+            dst_model_filename = f"{model_type}_{model_name}-{model_version}-{model_format}.zip"
         dst_model_path = dst_model_dir + "/" + dst_model_filename
 
         # Handle metrics correlation models differently
@@ -317,12 +318,10 @@ def prepare_files_for_uploading(
             
             with zipfile.ZipFile(dst_model_path, 'w', zipfile.ZIP_DEFLATED) as dst_zip:
                 dst_zip.write(src_model_path, os.path.basename(src_model_path))
-            
-            # Log zip contents
-            with zipfile.ZipFile(dst_model_path, 'r') as zip_check:
-                print(f"\nZip file contents: {zip_check.namelist()}")
-            
-            print(f"\nCreated zip {dst_model_path} with .pt file")
+                # Add LICENSE file
+                license_path = os.path.join(os.path.dirname(__file__), "../../LICENSE")
+                if os.path.exists(license_path):
+                    dst_zip.write(license_path, "LICENSE")
         else:
             shutil.copy(src_model_path, dst_model_path)
             print(f"\nCopied {src_model_path} to {dst_model_path}")
