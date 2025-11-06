@@ -290,6 +290,11 @@ def prepare_files_for_uploading(
         model_type = model_id.split("/")[0]
     if model_name is None:
         model_name = model_id.split("/")[-1]
+    
+    # Fix duplicate naming for metrics correlation models
+    if model_id == "metrics_correlation":
+        model_type = "amazon"
+    
     model_format = model_format.lower()
     folder_to_delete = (
         TORCHSCRIPT_FOLDER_PATH if model_format == "torch_script" else ONNX_FOLDER_PATH
@@ -306,24 +311,18 @@ def prepare_files_for_uploading(
         )
         dst_model_path = dst_model_dir + "/" + dst_model_filename
 
-        # Filter files only for metrics correlation models
-        if "metrics_correlation" in model_id.lower():
+        # Handle metrics correlation models differently
+        if model_id == "metrics_correlation":
             import zipfile
-            import tempfile
             
-            with tempfile.TemporaryDirectory() as temp_dir:
-                with zipfile.ZipFile(src_model_path, 'r') as src_zip:
-                    src_zip.extractall(temp_dir)
-                
-                with zipfile.ZipFile(dst_model_path, 'w', zipfile.ZIP_DEFLATED) as dst_zip:
-                    for root, dirs, files in os.walk(temp_dir):
-                        for file in files:
-                            if file.endswith('.pt') or 'license' in file.lower():
-                                file_path = os.path.join(root, file)
-                                arcname = os.path.relpath(file_path, temp_dir)
-                                dst_zip.write(file_path, arcname)
+            with zipfile.ZipFile(dst_model_path, 'w', zipfile.ZIP_DEFLATED) as dst_zip:
+                dst_zip.write(src_model_path, os.path.basename(src_model_path))
             
-            print(f"\nCreated filtered zip {dst_model_path} with .pt and license files only")
+            # Log zip contents
+            with zipfile.ZipFile(dst_model_path, 'r') as zip_check:
+                print(f"\nZip file contents: {zip_check.namelist()}")
+            
+            print(f"\nCreated zip {dst_model_path} with .pt file")
         else:
             shutil.copy(src_model_path, dst_model_path)
             print(f"\nCopied {src_model_path} to {dst_model_path}")

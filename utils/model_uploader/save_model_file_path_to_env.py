@@ -66,7 +66,7 @@ def get_model_file_path(
     if model_id == "metrics_correlation":
         model_type = "amazon"
         model_file_path = str(
-            Path(model_id)
+            Path(model_folder)
             / model_version
             / model_format.lower()
             / f"{model_type}_{model_id}-{model_version}-{model_format.lower()}.zip"
