@@ -144,7 +144,7 @@ def main(
     preview_model_config(tracing_format, config_file_path)
 
     # Store description
-    store_description_variable(model_description)
+    store_description_variable(config_file_path)
 
     prepare_files_for_uploading(
         model_id=model_id,
