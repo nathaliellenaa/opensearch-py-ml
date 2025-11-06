@@ -387,6 +387,8 @@ jobs:
       contents: read
     environment: opensearch-py-ml-cicd-env
     steps:
+      - name: Wait for artifact propagation
+        run: sleep 10
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
